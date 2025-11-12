@@ -23,37 +23,13 @@ class WeatherList extends StatelessWidget {
   const WeatherList({super.key});
 
   static const List<CityWeather> _cities = [
-    CityWeather(
-      name: 'Phnom Penh',
-      minTemp: 18,
-      maxTemp: 32,
-      currentTemp: 12.2,
-      iconAsset: 'assets/Ex4/cloudy.png',
-      gradient: [Color(0xFF7B4397), Color(0xFFDC2430)],
+    CityWeather(name: 'Phnom Penh', minTemp: 18, maxTemp: 32, currentTemp: 12.2, iconAsset: 'assets/Ex4/cloudy.png', gradient: [Color(0xFF7B4397), Color(0xFFDC2430)],
     ),
-    CityWeather(
-      name: 'Paris',
-      minTemp: 10,
-      maxTemp: 40,
-      currentTemp: 22.2,
-      iconAsset: 'assets/Ex4/sunny.png',
-      gradient: [Color(0xFF74EBD5), Color(0xFFACB6E5)],
+    CityWeather(name: 'Paris', minTemp: 10, maxTemp: 40, currentTemp: 22.2, iconAsset: 'assets/Ex4/sunny.png', gradient: [Color(0xFF74EBD5), Color(0xFFACB6E5)],
     ),
-    CityWeather(
-      name: 'Rome',
-      minTemp: 18,
-      maxTemp: 45,
-      currentTemp: 45.2,
-      iconAsset: 'assets/Ex4/sunnyCloudy.png',
-      gradient: [Color(0xFFFF4E50), Color(0xFFF9D423)],
+    CityWeather(name: 'Rome', minTemp: 18, maxTemp: 45, currentTemp: 45.2, iconAsset: 'assets/Ex4/sunnyCloudy.png', gradient: [Color(0xFFFF4E50), Color(0xFFF9D423)],
     ),
-    CityWeather(
-      name: 'Toulouse',
-      minTemp: 10,
-      maxTemp: 42,
-      currentTemp: 45.2,
-      iconAsset: 'assets/Ex4/veryCloudy.png',
-      gradient: [Color(0xFFFFB75E), Color(0xFFED8F03)],
+    CityWeather(name: 'Toulouse', minTemp: 10, maxTemp: 42, currentTemp: 45.2, iconAsset: 'assets/Ex4/veryCloudy.png', gradient: [Color(0xFFFFB75E), Color(0xFFED8F03)],
     ),
   ];
 
