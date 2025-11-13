@@ -13,101 +13,94 @@ class WeatherApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: const Color(0xFF7FB6F7),
-        body: const SafeArea(child: WeatherList()),
+        body: const SafeArea(child: WeatherHome()),
       ),
     );
   }
 }
 
-enum WeatherCity {
+enum Weather {
   phnomPenh(
-    displayName: 'Phnom Penh',
-    minTemp: 18,
-    maxTemp: 32,
+    city: 'Phnom Penh',
+    minTemp: 18.0,
+    maxTemp: 32.0,
     currentTemp: 12.2,
-    iconAsset: 'assets/Ex4/cloudy.png',
-    gradient: [Color(0xFF7B4397), Color(0xFFDC2430)],
+    iconPath: 'assets/Ex4/cloudy.png',
+    gradientColors: [Color(0xFF7B4397), Color(0xFFDC2430)],
   ),
   paris(
-    displayName: 'Paris',
-    minTemp: 10,
-    maxTemp: 40,
+    city: 'Paris',
+    minTemp: 10.0,
+    maxTemp: 40.0,
     currentTemp: 22.2,
-    iconAsset: 'assets/Ex4/sunny.png',
-    gradient: [Color(0xFF74EBD5), Color(0xFFACB6E5)],
+    iconPath: 'assets/Ex4/sunny.png',
+    gradientColors: [Color(0xFF74EBD5), Color(0xFFACB6E5)],
   ),
   rome(
-    displayName: 'Rome',
-    minTemp: 18,
-    maxTemp: 45,
+    city: 'Rome',
+    minTemp: 18.0,
+    maxTemp: 45.0,
     currentTemp: 45.2,
-    iconAsset: 'assets/Ex4/sunnyCloudy.png',
-    gradient: [Color(0xFFFF4E50), Color(0xFFF9D423)],
+    iconPath: 'assets/Ex4/sunnyCloudy.png',
+    gradientColors: [Color(0xFFFF4E50), Color(0xFFF9D423)],
   ),
   toulouse(
-    displayName: 'Toulouse',
-    minTemp: 10,
-    maxTemp: 42,
+    city: 'Toulouse',
+    minTemp: 10.0,
+    maxTemp: 42.0,
     currentTemp: 45.2,
-    iconAsset: 'assets/Ex4/veryCloudy.png',
-    gradient: [Color(0xFFFFB75E), Color(0xFFED8F03)],
+    iconPath: 'assets/Ex4/veryCloudy.png',
+    gradientColors: [Color(0xFFFFB75E), Color(0xFFED8F03)],
   );
 
-  const WeatherCity({
-    required this.displayName,
+  const Weather({
+    required this.city,
     required this.minTemp,
     required this.maxTemp,
     required this.currentTemp,
-    required this.iconAsset,
-    required this.gradient,
+    required this.iconPath,
+    required this.gradientColors,
   });
 
-  final String displayName;
-  final int minTemp;
-  final int maxTemp;
+  final String city;
+  final double minTemp;
+  final double maxTemp;
   final double currentTemp;
-  final String iconAsset;
-  final List<Color> gradient;
+  final String iconPath;
+  final List<Color> gradientColors;
 }
 
-class WeatherList extends StatelessWidget {
-  const WeatherList({super.key});
-
-  static const List<WeatherCity> _cities = WeatherCity.values;
+class WeatherHome extends StatelessWidget {
+  const WeatherHome({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                'City Forecast',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+        children: const [
+          NavBar(),
+          SizedBox(height: 30),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              'City Forecast',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
               ),
-              Icon(Icons.menu, color: Colors.white),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: ListView.separated(
-              itemCount: _cities.length,
-              separatorBuilder: (_, __) =>
-                  const SizedBox(height: 20), //Ai generated
-              itemBuilder: (context, index) {
-                final city = _cities[index];
-                return WeatherCard(city: city);
-              },
             ),
           ),
+          SizedBox(height: 20),
+          WeatherCard(weather: Weather.phnomPenh),
+          SizedBox(height: 20),
+          WeatherCard(weather: Weather.paris),
+          SizedBox(height: 20),
+          WeatherCard(weather: Weather.rome),
+          SizedBox(height: 20),
+          WeatherCard(weather: Weather.toulouse),
+          SizedBox(height: 30),
         ],
       ),
     );
@@ -115,72 +108,125 @@ class WeatherList extends StatelessWidget {
 }
 
 class WeatherCard extends StatelessWidget {
-  const WeatherCard({required this.city, super.key});
+  const WeatherCard({required this.weather, super.key});
 
-  final WeatherCity city;
+  final Weather weather;
+
   @override
   Widget build(BuildContext context) {
-    return PhysicalModel(
-      color: Colors.transparent,
-      elevation: 4,
-      borderRadius: BorderRadius.circular(20),
-      clipBehavior: Clip.antiAlias,
-      shadowColor: Colors.black26,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: city.gradient,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        padding: const EdgeInsets.all(20),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 26,
-              backgroundColor: Colors.white,
-              child: Image.asset(
-                city.iconAsset,
-                width: 36,
-                height: 36,
-                fit: BoxFit.contain,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: PhysicalModel(
+        color: Colors.transparent,
+        elevation: 6,
+        borderRadius: BorderRadius.circular(20),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: weather.gradientColors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    city.displayName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
+            child: Stack(
+              children: [
+                Positioned(
+                  right: -100,
+                  top: 0,
+                  bottom: 0,
+                  child: Container(
+                    width: 200,
+                    decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                        colors: [
+                          weather.gradientColors[1].withOpacity(0.6),
+                          weather.gradientColors[0].withOpacity(0.4),
+                          weather.gradientColors[1].withOpacity(0.2),
+                          Colors.transparent,
+                        ],
+                        stops: const [0.0, 0.4, 0.7, 1.0],
+                        center: Alignment.center,
+                      ),
+                      shape: BoxShape.circle,
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Min ${city.minTemp}°C • Max ${city.maxTemp}°C',
-                    style: const TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.white,
+                            backgroundImage: AssetImage(weather.iconPath),
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                weather.city,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Min ${weather.minTemp}°C',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                              Text(
+                                'Max ${weather.maxTemp}°C',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '${weather.currentTemp}°C',
+                        style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Text(
-              '${city.currentTemp.toStringAsFixed(1)}°C',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class NavBar extends StatelessWidget {
+  const NavBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      color: Colors.blue,
+      alignment: Alignment.centerRight,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: const Icon(Icons.menu, color: Colors.white),
     );
   }
 }
