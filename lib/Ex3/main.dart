@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum Product {
-  dart('Dart', 'Made my life miser', '../assets/Ex3/dart.png'),
+  dart('Dart', 'Made my life miserable', '../assets/Ex3/dart.png'),
   flutter(
     'Flutter',
     'The best mobile widget library',
